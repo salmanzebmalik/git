@@ -1,1 +1,9 @@
-This is my first git repository. The file has been changed.
+This project contains practice code for Version Control System (VCS) using git.
+
+# Git Commands
+git init
+git log
+git add <file> | git add . (for all files)
+git commit -m "commit message"
+git status
+
