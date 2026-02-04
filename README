@@ -1,9 +1,102 @@
-This project contains practice code for Version Control System (VCS) using git.
+# Git Practice Manual (VCS)
 
-# Git Commands
+This project contains practice code for learning and using **Git** (Version Control System).
+
+---
+
+## What is Git?
+Git is a **version control system (VCS)** used to track changes in files and collaborate with others.
+
+---
+
+## Basic Git Commands
+
+### 1) Initialize a Git Repository
+Creates a new Git repository in the current folder:
+
+```bash
 git init
-git log
-git add <file> | git add . (for all files)
-git commit -m "commit message"
+```
+
+---
+
+### 2) Check Repository Status
+
+Shows which files are modified, staged, or untracked:
+
+```bash
 git status
+```
+
+---
+
+### 3) Add Files to Staging Area
+
+Add a specific file:
+
+```bash
+git add <file>
+```
+
+Add all files:
+
+```bash
+git add .
+```
+
+---
+
+### 4) Commit Changes
+
+Saves the staged changes as a new version:
+
+```bash
+git commit -m "commit message"
+```
+
+Example:
+
+```bash
+git commit -m "Add initial project files"
+```
+
+---
+
+### 5) View Commit History
+
+Displays all commits made in the repository:
+
+```bash
+git log
+```
+
+Short version (clean view):
+
+```bash
+git log --oneline
+```
+
+---
+
+## Typical Workflow
+
+```bash
+git init
+git status
+git add .
+git commit -m "Initial commit"
+git log
+```
+
+---
+
+##  Notes
+
+* `git add` stages changes (prepares them for commit).
+* `git commit` permanently saves those staged changes.
+* Use `git status` frequently to stay aware of what is happening.
+
+---
+
+
 
