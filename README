@@ -111,6 +111,26 @@ git diff --staged
 
 ---
 
+## Renaming or deleting a file using git
+
+```bash
+git mv <old_file> <new_file>
+git rm <file>
+```
+
+---
+
+## Adding a .gitignore file
+
+.gitignore files are used to tell the git tool to intentionally ignore some files in a given Git repository. For example, this can be useful for configuration files or metadata files that a user may not want to check into the master branch. 
+
+When writing a .gitignore file, there are some specific formats which help tell Git how to read the text in the file. For example, a line starting with # is a comment; a slash / is a directory separator. Visit https://git-scm.com/docs/gitignore to see more examples.
+
+This GitHub repository offers some examples of configurations which are often included in a .gitignore file. These examples include: compiled sources, packages, logs, databases, and OS generated files.
+
+---
+
+
 ##  Notes
 
 * `git add` stages changes (prepares them for commit).
@@ -120,3 +140,5 @@ git diff --staged
 * `git add -p` shows the changes that we have made and ask us whether to add to staging area or not.
 * `git diff --staged` shows the changes to the files already added to staged areas.
 * `git log -p`, `git show <commit_id>`, and `git log --stat` shows the changes after the commit.
+* `git mv <old_file> <new_file>`can be used to rename or move a file.
+* `git rm <file>` can be used to remove a file and mark it untracked.
