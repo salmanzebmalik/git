@@ -90,13 +90,33 @@ git log
 
 ---
 
+## Skipping the staging area
+
+```bash
+git commit -a
+```
+
+---
+
+## Getting more information from the user
+
+```bash
+git log -p
+git show <commit_id>
+git log --stat
+git diff
+git add -p
+git diff --staged
+```
+
+---
+
 ##  Notes
 
 * `git add` stages changes (prepares them for commit).
 * `git commit` permanently saves those staged changes.
 * Use `git status` frequently to stay aware of what is happening.
-
----
-
-
-
+* `git diff` shows the changes before add the changes to the staging area.
+* `git add -p` shows the changes that we have made and ask us whether to add to staging area or not.
+* `git diff --staged` shows the changes to the files already added to staged areas.
+* `git log -p`, `git show <commit_id>`, and `git log --stat` shows the changes after the commit.
