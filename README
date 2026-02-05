@@ -261,6 +261,8 @@ venv/
 - **Unstage a file:** `git reset <file>`
 - **Discard changes in working directory:** `git checkout -- <file>`
 - **Revert a commit:** `git revert <commit_id>`
+- `git reset -p <file>` **Revert unstage changes selectively (Older Version)**
+- `git checkout -p --staged <file>` **Discard unstage changes selectively (Older Version)**
 #### Newer version
 - `git restore <file>` **Discard unstaged changes**
 - `git restore --staged <file>` **Discard Staged changes**
@@ -268,8 +270,7 @@ venv/
 - `git reset --hard` **Complete reset (permanantly) to the last commit**
 - `git restore -p <file>` **Revert unstage changes selectively**
 - `git restore --staged -p <file>` **Revert stage changes selectively**
-- `git reset -p <file>` **Revert unstage changes selectively (Older Version)**
-- `git checkout -p --staged <file>` **Discard unstage changes selectively (Older Version)**
+
 
 
 ### Resolving Conflicts
