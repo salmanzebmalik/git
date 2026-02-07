@@ -48,8 +48,7 @@ def check_system_health():
         "CPU Usage": check_cpu_usage(),
         "Memory Usage": check_memory_usage(),
         "Disk Space": check_disk_space(),
-        "Network": check_network_connectivity(),
-        "Disk Full": full_disk()
+        "Network": check_network_connectivity()
     }
     
     print("\n=== Summary ===")
