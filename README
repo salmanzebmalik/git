@@ -280,6 +280,7 @@ venv/
 Notes: It is better to use `git revert` on the public repo rather than `git commit --amend` as it helps maintain the consistency of the project. `git revert HEAD` revert the changes by commiting a new commit inverting the changes of the latest commit rather than overwriting it.
 
 Q: Can we use `git commit --amend` of a previously commited commit rather than the latest commit?
+
 ### Branches
 
 - `git branch` list out all the branches
@@ -288,6 +289,9 @@ Q: Can we use `git commit --amend` of a previously commited commit rather than t
 - `git checkout -b <branch_name>` creates a new branch and switches to it.
 - `git branch -d <branch_name>` deletes the branch.
 - `git branch -D <branch_name>` deletes the branch even if there are uncommited changes to the master/branch.
+
+#### Fast-forward merge vs. Three-way merge
+In fast-forward merge, no actual merge happens, git just update the pointer to the new latest commited commit. In three-way merge, lets say, if after splitting, we committed on master branch and the other branch, then git will create a new commit tieing the history and content of those two branches together.
 
 !Important: Add the difference between `git checkout` command dealing with branches or undoing the changes previously made in your git repo.
 
