@@ -255,7 +255,7 @@ venv/
 
 ## Common Scenarios
 
-### Undoing Changes
+### Undoing Changes (Before committing)
 
 #### Older version
 - **Unstage a file:** `git reset <file>`
@@ -272,6 +272,21 @@ venv/
 - `git restore --staged -p <file>` **Revert stage changes selectively**
 
 
+### Undoing Changes (After committing)
+- `git commit --amend` overwriting the previously committed (latest) commit.
+- `git revert HEAD` reverting the changes to the latest commit.
+- `git revert <commit_id>` reverting the changes to the commit with specific commit_id
+
+Notes: It is better to use `git revert` on the public repo rather than `git commit --amend` as it helps maintain the consistency of the project. `git revert HEAD` revert the changes by commiting a new commit inverting the changes of the latest commit rather than overwriting it.
+
+Q: Can we use `git commit --amend` of a previously commited commit rather than the latest commit?
+### Branches
+
+- `git branch` list out all the branches
+- `git checkout branch` switch to the other branch
+- `git checkout -b branch` creates a new branch and switches to it.
+
+!Important: Add the difference between `git checkout` command dealing with branches or undoing the changes previously made in your git repo.
 
 ### Resolving Conflicts
 
