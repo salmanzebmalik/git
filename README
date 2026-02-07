@@ -291,6 +291,7 @@ Q: Can we use `git commit --amend` of a previously commited commit rather than t
 
 !Important: Add the difference between `git checkout` command dealing with branches or undoing the changes previously made in your git repo.
 
+# this line is changed and commited to new_feature branch (subject to be deleted).
 ### Resolving Conflicts
 
 During a merge, Git may encounter conflicts that need manual resolution:
