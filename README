@@ -258,40 +258,71 @@ venv/
 ### Undoing Changes (Before committing)
 
 #### Older version
-- **Unstage a file:** `git reset <file>`
-- **Discard changes in working directory:** `git checkout -- <file>`
-- **Revert a commit:** `git revert <commit_id>`
-- `git reset -p <file>` **Revert unstage changes selectively (Older Version)**
-- `git checkout -p --staged <file>` **Discard unstage changes selectively (Older Version)**
-#### Newer version
-- `git restore <file>` **Discard unstaged changes**
-- `git restore --staged <file>` **Discard Staged changes**
-- `git restore --source=HEAD --staged --worktree .` **Go back to the last commit completely.**
-- `git reset --hard` **Complete reset (permanantly) to the last commit**
-- `git restore -p <file>` **Revert unstage changes selectively**
-- `git restore --staged -p <file>` **Revert stage changes selectively**
+```bash
+# Unstage a file
+git reset <file>
+# Discard changes in working directory
+git checkout -- <file>
+# Revert a commit
+git revert <commit_id>
+# Revert unstage changes selectively (Older Version)
+git reset -p <file> 
+# Discard unstage changes selectively (Older Version)
+git checkout -p --staged <file> 
+```
 
+#### Newer version
+```bash
+# Discard unstaged changes
+git restore <file> 
+# Discard Staged changes
+git restore --staged <file> 
+# Go back to the last commit completely.
+git restore --source=HEAD --staged --worktree
+# Complete reset (permanantly) to the last commit
+git reset --hard 
+# Revert unstage changes selectively
+git restore -p <file> 
+# Revert stage changes selectively
+git restore --staged -p <file> 
+```
 
 ### Undoing Changes (After committing)
-- `git commit --amend` overwriting the previously committed (latest) commit.
-- `git revert HEAD` reverting the changes to the latest commit.
-- `git revert <commit_id>` reverting the changes to the commit with specific commit_id
+
+```bash
+# Overwriting the previously committed (latest) commit.
+git commit --amend
+# Reverting the changes to the latest commit. 
+git revert HEAD 
+# Reverting the changes to the commit with specific commit_id
+git revert <commit_id> 
+```
 
 Notes: It is better to use `git revert` on the public repo rather than `git commit --amend` as it helps maintain the consistency of the project. `git revert HEAD` revert the changes by commiting a new commit inverting the changes of the latest commit rather than overwriting it.
 
-Q: Can we use `git commit --amend` of a previously commited commit rather than the latest commit?
+```
+Question: Can we use `git commit --amend` of a previously commited commit rather than the latest commit?
+```
 
 ### Branches
 
-- `git branch` list out all the branches
-- `git branch <branch_name>` creates
-- `git checkout <branch_name>` switch to the other branch
-- `git checkout -b <branch_name>` creates a new branch and switches to it.
-- `git branch -d <branch_name>` deletes the branch.
-- `git branch -D <branch_name>` deletes the branch even if there are uncommited changes to the master/branch.
+```bash
+# list out all the branches.
+git branch 
+# creates a new branch.
+git branch <branch_name>
+# switch to the other branch. 
+git checkout <branch_name> 
+# creates a new branch and switches to it.
+git checkout -b <branch_name>
+# deletes the branch. 
+git branch -d <branch_name> 
+# deletes the branch even if there are uncommited changes to the master/branch.
+git branch -D <branch_name> 
+```
 
 #### Fast-forward merge vs. Three-way merge
-In fast-forward merge, no actual merge happens, git just update the pointer to the new latest commited commit. In three-way merge, lets say, if after splitting, we committed on master branch and the other branch, then git will create a new commit tieing the history and content of those two branches together.
+To understand the difference between fast forward and three way merge, go to [fast_forward_vs_three_way_merge](/fast_forward_vs_three_way.md).
 
 !Important: Add the difference between `git checkout` command dealing with branches or undoing the changes previously made in your git repo.
 
