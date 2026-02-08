@@ -1,0 +1,382 @@
+# Git Practice Manual (Version Control System)
+
+A comprehensive guide to learning and mastering **Git**, the industry-standard version control system for tracking changes and collaborating on code.
+
+---
+
+## Table of Contents
+1. [What is Git?](#what-is-git)
+2. [Basic Git Commands](#basic-git-commands)
+3. [Typical Workflow](#typical-workflow)
+4. [Advanced Commands](#advanced-commands)
+5. [File Management](#file-management)
+6. [Ignoring Files](#ignoring-files)
+7. [Best Practices](#best-practices)
+8. [Common Scenarios](#common-scenarios)
+
+---
+
+## What is Git?
+
+Git is a **distributed version control system (VCS)** that allows you to:
+- **Track changes** in files over time
+- **Collaborate** with other developers
+- **Manage different versions** of your project
+- **Revert to previous states** if needed
+- **Work offline** with full history
+
+### Why Use Git?
+- Maintain a complete history of your project
+- Enable team collaboration without conflicts
+- Create branches to work on features independently
+- Review changes before committing
+- Identify who made what changes and when
+
+---
+
+## Basic Git Commands
+
+### 1) Initialize a Git Repository
+
+Creates a new Git repository in your current folder:
+
+```bash
+git init
+```
+
+**What it does:** Creates a hidden `.git` directory that stores all version history.
+
+---
+
+### 2) Check Repository Status
+
+Shows the current state of your repository:
+
+```bash
+git status
+```
+
+**Output includes:**
+- Modified files (changes not staged)
+- Staged files (ready to commit)
+- Untracked files (not yet added to Git)
+
+---
+
+### 3) Add Files to Staging Area
+
+Prepare files for commit:
+
+```bash
+# Add a specific file
+git add <filename>
+
+# Add all modified files
+git add .
+
+# Add files interactively
+git add -p
+```
+
+**What it does:** Moves files to the staging area, marking them for the next commit.
+
+**Note:** `git add -p` allows you to review changes chunk-by-chunk before staging.
+
+---
+
+### 4) Commit Changes
+
+Save your staged changes as a permanent snapshot:
+
+```bash
+git commit -m "Your descriptive message"
+```
+
+**Examples:**
+```bash
+git commit -m "Add user authentication feature"
+git commit -m "Fix bug in login validation"
+git commit -m "Update documentation"
+```
+
+**Tip:** Write clear, descriptive commit messages (use imperative mood: "Add feature" not "Added feature").
+
+---
+
+### 5) View Commit History
+
+Display all commits in your repository:
+
+```bash
+# Full commit details
+git log
+
+# Condensed view (recommended)
+git log --oneline
+
+# Show commits with statistics
+git log --stat
+
+# Show detailed changes for each commit
+git log -p
+
+# Show specific commit details
+git show <commit_id>
+```
+
+---
+
+## Typical Workflow
+
+The standard Git workflow for a new project:
+
+```bash
+# 1. Initialize repository
+git init
+
+# 2. Check initial status
+git status
+
+# 3. Create/modify files (using your editor)
+
+# 4. Stage all changes
+git add .
+
+# 5. Commit with a message
+git commit -m "Initial commit"
+
+# 6. View history
+git log
+```
+
+---
+
+## Advanced Commands
+
+### Skipping the Staging Area
+
+Commit all modified files directly without `git add`:
+
+```bash
+git commit -a -m "Your message"
+```
+
+**Warning:** This only works for tracked files. New files must be added with `git add`.
+
+---
+
+### Viewing Changes
+
+Understand what changed before committing:
+
+```bash
+# Changes in working directory (not staged)
+git diff
+
+# Changes already staged
+git diff --staged
+```
+
+---
+
+## File Management
+
+### Renaming or Moving Files
+
+Use Git to rename or move files (preserves history):
+
+```bash
+# Rename a file
+git mv <old_filename> <new_filename>
+
+# Move a file to another directory
+git mv <filename> <directory/filename>
+```
+
+**vs. Manual Rename:** If you rename files manually, Git treats it as a deletion + new file, losing history.
+
+### Removing Files
+
+Remove files from both working directory and Git tracking:
+
+```bash
+# Remove a file
+git rm <filename>
+
+# Remove from Git only (keep local file)
+git rm --cached <filename>
+```
+
+---
+
+## Ignoring Files
+
+### Adding a .gitignore File
+
+Use `.gitignore` to tell Git which files to intentionally ignore. This is useful for:
+- Configuration files with sensitive data
+- Build artifacts and compiled code
+- Temporary files and logs
+- Operating system generated files
+- Dependencies (node_modules, venv, etc.)
+
+**Example .gitignore:**
+````markdown
+# Node.js dependencies
+node_modules/
+
+# Python virtual environment
+venv/
+
+# macOS system files
+.DS_Store
+
+# Logs
+*.log
+
+# Environment variables
+.env
+````
+
+**Note:** Visit [Git Ignore Documentation](https://git-scm.com/docs/gitignore) for more examples and patterns.
+
+---
+
+## Best Practices
+
+- **Commit Often:** Make commits that represent small, logical units of change.
+- **Write Descriptive Commit Messages:** Explain the "what" and "why" of your changes.
+- **Use Branches:** Create branches for new features or bug fixes to keep the main branch stable.
+- **Keep Commits Focused:** Each commit should address a single concern or issue.
+- **Review Changes Before Committing:** Use `git diff` and `git status` to review changes.
+- **Sync Regularly:** Pull changes from the remote repository frequently to stay up-to-date.
+
+---
+
+## Common Scenarios
+
+### Undoing Changes (Before committing)
+
+#### Older version
+```bash
+# Unstage a file
+git reset <file>
+# Discard changes in working directory
+git checkout -- <file>
+# Revert a commit
+git revert <commit_id>
+# Revert unstage changes selectively (Older Version)
+git reset -p <file> 
+# Discard unstage changes selectively (Older Version)
+git checkout -p --staged <file> 
+```
+
+#### Newer version
+```bash
+# Discard unstaged changes
+git restore <file> 
+# Discard Staged changes
+git restore --staged <file> 
+# Go back to the last commit completely.
+git restore --source=HEAD --staged --worktree
+# Complete reset (permanantly) to the last commit
+git reset --hard 
+# Revert unstage changes selectively
+git restore -p <file> 
+# Revert stage changes selectively
+git restore --staged -p <file> 
+```
+
+### Undoing Changes (After committing)
+
+```bash
+# Overwriting the previously committed (latest) commit.
+git commit --amend
+# Reverting the changes to the latest commit. 
+git revert HEAD 
+# Reverting the changes to the commit with specific commit_id
+git revert <commit_id> 
+```
+
+Notes: It is better to use `git revert` on the public repo rather than `git commit --amend` as it helps maintain the consistency of the project. `git revert HEAD` revert the changes by commiting a new commit inverting the changes of the latest commit rather than overwriting it.
+
+```
+Question: Can we use `git commit --amend` of a previously commited commit rather than the latest commit?
+```
+
+### Branches
+
+```bash
+# list out all the branches.
+git branch 
+# creates a new branch.
+git branch <branch_name>
+# switch to the other branch. 
+git checkout <branch_name> 
+# creates a new branch and switches to it.
+git checkout -b <branch_name>
+# deletes the branch. 
+git branch -d <branch_name> 
+# deletes the branch even if there are uncommited changes to the master/branch.
+git branch -D <branch_name> 
+```
+
+#### Fast-forward merge vs. Three-way merge
+Fast-forward merge: A merge when all the commits in the checked out branch are also in the branch that's being merged
+
+Three-way merge: A merge when the snapshots at the two branch tips with the most recent common ancestor, the commit before the divergence
+
+To understand the difference between fast forward and three way merge in detail, go to [fast_forward_vs_three_way_merge](/fast_forward_vs_three_way.md).
+
+!Important: Add the difference between `git checkout` command dealing with branches or undoing the changes previously made in your git repo.
+
+### Resolving Conflicts
+
+During a merge, Git may encounter conflicts that need manual resolution:
+
+1. Identify conflicted files (marked as "both modified" in `git status`).
+2. Open and edit the files to resolve conflicts.
+3. Stage the resolved files: `git add <file>`
+4. Complete the merge: `git commit`
+
+### Viewing Differences
+
+To see what has changed between commits, branches, or the working directory:
+
+```bash
+# Compare working directory with last commit
+git diff
+
+# Compare staged changes with last commit
+git diff --cached
+
+# Compare two branches
+git diff <branch1>..<branch2>
+
+# Compare two commits
+git diff <commit_id1>..<commit_id2>
+```
+
+### Stashing Changes
+
+To temporarily set aside changes in your working directory:
+
+```bash
+# Stash changes
+git stash
+
+# List stashed changes
+git stash list
+
+# Apply the most recent stash
+git stash apply
+
+# Drop a stash
+git stash drop stash@{0}
+```
+
+---
+
+## Conclusion
+
+This manual provides a foundation for using Git effectively. For more advanced topics and detailed explanations, refer to the [Pro Git book](https://git-scm.com/book/en/v2) and the [Git documentation](https://git-scm.com/doc). Practice regularly and explore Git's powerful features to become a proficient user.
