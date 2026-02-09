@@ -1,3 +1,15 @@
 ### Git & Github Practice Repo
 
-The purpose of this repository is to review and revise the concepts learn in the course "Introduction to Github" provided my Google on Coursera. It includes practice notes and files that you can use to learn and understand git & github theory with practical applications.
+The purpose of this repository is to review and revise the concepts learn in the course "Introduction to Github" provided my Google on Coursera. 
+
+## Course Content
+- Introduction to Version Control System
+- Using Git Locally
+- Working with Remotes
+- Collaboration
+
+The notes for this course can be find in /notes directory. 
+
+The code files can be found in /script directory.
+
+`The code files are written in python language`
