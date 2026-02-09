@@ -54,7 +54,7 @@ def check_system_health():
     print("\n=== Summary ===")
     failed_checks = []
     for check_name, status in checks.items():
-        status_text = "✓ OK" if status else "✗ WARNING"
+        status_text = "OK" if status else "WARNING"
         print(f"{check_name}: {status_text}")
         if not status:
             failed_checks.append(check_name)
@@ -65,9 +65,9 @@ def main():
     all_passed, failed_checks = check_system_health()
     
     if not all_passed:
-        print(f"\n⚠️  Failed Checks: {', '.join(failed_checks)}")
+        print(f"\nFailed Checks: {', '.join(failed_checks)}")
         sys.exit(1)
-    print("\n✓ All health checks passed!")
+    print("\nAll health checks passed!")
     sys.exit(0)
 
 main()
