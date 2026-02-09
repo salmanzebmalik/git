@@ -1,6 +1,6 @@
 # Git & Github Practice Repo
 
-The purpose of this repository is to review and revise the concepts learn in the course "Introduction to Github" provided my Google on Coursera. 
+The purpose of this repository is to review and revise the concepts learn in the course "Introduction to Github" provided by Google on Coursera. 
 
 ## Course Content
 - Introduction to Version Control System
