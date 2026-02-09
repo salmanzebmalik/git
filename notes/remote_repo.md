@@ -10,7 +10,7 @@ There are various remote repository hosting sites:
 
 ```bash
 # Git clone is used to clone a remote repository into a local workspace
-git clone `URL`
+git clone <URL>
 # Git push is used to push commits from your local repo to a remote repo
 git push
 # Git pull is used to fetch the newest updates from a remote repository
@@ -254,3 +254,199 @@ If you’ve fallen behind on the remote branch and your branch needs to be synch
 ### Summary:
 
 To connect to a remote repository, use `git remote add origin <repository_url>`. Once you're connected, you can fetch changes, merge them, and push your work. Conflicts happen when Git cannot auto-merge changes, but with a little practice, conflict resolution becomes straightforward. Keeping your branches in sync with `git pull` or `git fetch` + `git merge` or `git rebase` ensures that your local repository stays up-to-date with the remote.
+
+
+---
+
+## Appendix:
+
+### 1) `git remote update` vs `git fetch`
+
+Both **download new info from remotes** (commits + updated remote-tracking refs like `origin/main`). The difference is scope + defaults.
+
+**`git fetch`**
+
+* Fetches from **one remote** (default: `origin`) and usually the branches configured for it.
+* You can target specific things:
+
+  * `git fetch origin`
+  * `git fetch origin main`
+  * `git fetch --all` (all remotes)
+
+**`git remote update`**
+
+* Basically “fetch for all remotes” (or a named remote), using each remote’s configured fetch refspec.
+* Rough mental model:
+
+  * `git remote update` ≈ `git fetch --all`
+  * `git remote update origin` ≈ `git fetch origin`
+* It’s just a convenience command; most people use `git fetch` (or `git fetch --all`).
+
+Key point: **Neither merges nor rebases your current branch.** They only update **remote-tracking branches** (`origin/main`, `origin/dev`, etc.).
+
+---
+
+### 2) `git rebase` in detail (what branch do I run it on, what do I specify?)
+
+**One sentence rule:**
+
+> You run `rebase` **while you are on the branch you want to move**, and you specify **the branch you want to move it onto**.
+
+#### A) The most common case: update your feature branch with latest `main`
+
+You are working on `feature-x`. Remote `main` advanced.
+
+```bash
+git checkout feature-x
+git fetch origin
+git rebase origin/main
+```
+
+What it *means*:
+
+* Git temporarily “takes off” your commits (the ones on `feature-x` that `main` doesn’t have),
+* fast-forwards you to `origin/main`,
+* then replays your feature commits on top.
+  Result: your feature branch history becomes linear: `origin/main` → your commits.
+
+#### B) Rebase onto local `main` (only if your local `main` is up to date)
+
+```bash
+git checkout main
+git pull          # update local main first
+git checkout feature-x
+git rebase main
+```
+
+If you forget to update `main`, you’ll rebase onto an older base → not what you want. That’s why people often use `origin/main` as the target base.
+
+#### C) “Which direction?” (common confusion)
+
+* `feature-x` onto `main`: you’re cleaning up and updating your feature branch.
+* `main` onto `feature-x`: usually wrong in team workflows because you’d be rewriting shared mainline history.
+
+#### D) Conflicts during rebase
+
+If conflicts happen:
+
+```bash
+# fix files
+git add <fixed_files>
+git rebase --continue
+```
+
+If you want to stop:
+
+```bash
+git rebase --abort
+```
+
+#### E) After rebasing, pushing may require force
+
+Because rebase rewrites commit hashes:
+
+* If branch was never pushed: normal push.
+* If branch already exists on remote: you need:
+
+```bash
+git push --force-with-lease
+```
+
+Use `--force-with-lease` (safer than `--force`).
+
+---
+
+### 3) Multiple local + remote branches: where does rebase happen, and what should happen “locally vs remotely”?
+
+**Important reality:**
+**Rebase always happens locally.**
+You never “rebase on GitHub” directly. GitHub just stores commits; *you* rewrite your local branch and then push it.
+
+Think of 3 kinds of branches:
+
+1. **Local branch**
+
+* `main`, `feature-x` (real branches you work on)
+
+2. **Remote-tracking branch** (read-only pointers)
+
+* `origin/main`, `origin/feature-x`
+* Updated by `fetch` / `remote update`
+
+3. **Remote branch** (actually on GitHub)
+
+* You don’t “edit” it directly; you update it by pushing.
+
+---
+
+### A clean mental model that removes confusion
+
+#### Step 0: Always separate “download” vs “integrate”
+
+* **Download remote changes**: `git fetch` / `git remote update`
+* **Integrate into your branch**: `merge` or `rebase`
+* **Upload your commits**: `git push`
+
+So a normal safe flow is:
+
+#### Scenario: you work on `feature-x`, team updates `main`
+
+```bash
+git checkout feature-x
+git fetch origin
+git rebase origin/main   # or merge origin/main
+git push --force-with-lease   # only if feature-x was already pushed before
+```
+
+#### Scenario: you just want latest `main` locally
+
+```bash
+git checkout main
+git pull   # (fetch + merge) OR use: git fetch; git merge origin/main
+```
+
+#### Scenario: you want to see all remote branches updated
+
+```bash
+git fetch --all
+git branch -r
+```
+
+---
+
+### What about “multiple branches” specifically?
+
+#### Rule of thumb: rebase only your **own topic branches**
+
+* Rebase: `feature/*`, `bugfix/*` (your work, not shared widely)
+* Avoid rebasing: `main`, shared `dev` branches used by many people (unless your team explicitly does it and coordinates)
+
+#### If your local has many branches, you don’t rebase all of them automatically
+
+You rebase **the one you are about to work on or merge**.
+
+Example:
+
+* You’re about to continue work on `feature-a` → rebase `feature-a` onto latest `origin/main`.
+* You don’t touch `feature-b` unless you’re working on it.
+
+---
+
+### Quick “which command when” cheat sheet
+
+**Update your view of remote**
+
+* `git fetch` (most common)
+* `git remote update` (fetch all remotes)
+
+**Bring remote main into your feature branch**
+
+* Cleaner history: `git rebase origin/main`
+* Preserve full merge record: `git merge origin/main`
+
+**Bring your feature branch to GitHub**
+
+* First push: `git push -u origin feature-x`
+* After rebase of already-pushed branch: `git push --force-with-lease`
+
+---
